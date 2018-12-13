@@ -1,0 +1,10 @@
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\bin\Debug\GameCaroLan.exe.config
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\bin\Debug\GameCaroLan.exe
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\bin\Debug\GameCaroLan.pdb
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.csprojResolveAssemblyReference.cache
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.Form1.resources
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.Properties.Resources.resources
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.csproj.GenerateResource.Cache
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.exe
+C:\Users\ASUS\source\repos\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.pdb
