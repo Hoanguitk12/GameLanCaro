@@ -63,9 +63,29 @@ namespace GameCaroLan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap chu_0 {
+            get {
+                object obj = ResourceManager.GetObject("chu 0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap x0 {
             get {
                 object obj = ResourceManager.GetObject("x0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap XX {
+            get {
+                object obj = ResourceManager.GetObject("XX", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

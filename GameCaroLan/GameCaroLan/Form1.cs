@@ -20,7 +20,7 @@ namespace GameCaroLan
         public Form1()
         {
             InitializeComponent();
-            CheckBoard1 = new ChessBoardMannager(panel1);
+            CheckBoard1 = new ChessBoardMannager(panel1, textBox1,pictureBox1);
             CheckBoard1.CreatChessboard();
 
         }
