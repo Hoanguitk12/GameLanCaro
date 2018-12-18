@@ -32,7 +32,32 @@ namespace GameCaroLan
         public TextBox PlayerName { get => playerName; set => playerName = value; }
         public List<List<Button>> Matrix { get => matrix; set => matrix = value; }
 
-        private List<List<Button>> matrix;  
+        private List<List<Button>> matrix;
+        private event EventHandler playerMarked;
+        public event EventHandler PlayerMarked
+        {
+            add
+            {
+                playerMarked += value;
+            }
+            remove
+            {
+                playerMarked -= value;
+            }
+        }
+        private event EventHandler endedGame;
+        public event EventHandler EndedGame
+        {
+            add
+            {
+                endedGame += value;
+            }
+            remove
+            {
+                endedGame -= value;
+            }
+        }
+
 
 
         #endregion
@@ -48,7 +73,8 @@ namespace GameCaroLan
                 new Player("Player 1",Image.FromFile(Application.StartupPath + "//Resources//XX.png")),
                 new Player("Player 2",Image.FromFile(Application.StartupPath + "//Resources//chu 0.png"))
             };
-            CurrentPlayer = 0;
+            
+          
 
         }
 
@@ -57,6 +83,10 @@ namespace GameCaroLan
         #region Methods
         public void CreatChessboard()
         {
+            ChessBoard.Enabled = true;
+            ChessBoard.Controls.Clear();
+            CurrentPlayer = 0;
+            CurrentPlayer = CurrentPlayer == 1 ? 0 : 1;
             Matrix = new List<List<Button>>();
             Button oldButton = new Button() { Width = 0, Location = new Point(0, 0) };
             for (int i = 0; i < Cons.CHESS_BOARD_HEIGHT; i++)
@@ -96,15 +126,19 @@ namespace GameCaroLan
             CurrentPlayer = CurrentPlayer == 1 ? 0 : 1;
             PlayerName.Text = Player[CurrentPlayer].Name;
             PlayerMark.Image = Player[CurrentPlayer].Mark;
-            if(IsEndGame(btn))
+            if (playerMarked != null)
+                playerMarked(this, new EventArgs());
+            if (IsEndGame(btn))
             {
                 EndGame();
             }
+           
      
         }
-        private void EndGame()
+        public void EndGame()
         {
-            MessageBox.Show("Kết thúc game");
+            if (endedGame != null)
+                endedGame(this, new EventArgs());
         }
         private Point GetChessPoint(Button btn)
         {
