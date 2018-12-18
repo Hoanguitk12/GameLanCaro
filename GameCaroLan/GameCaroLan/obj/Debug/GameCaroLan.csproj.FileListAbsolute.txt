@@ -17,3 +17,4 @@ C:\Users\ASUS\Documents\GitHub\GameLanCaro\GameCaroLan\GameCaroLan\obj\Debug\Gam
 C:\Users\ASUS\Documents\GitHub\GameLanCaro\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.csproj.CoreCompileInputs.cache
 C:\Users\ASUS\Documents\GitHub\GameLanCaro\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.exe
 C:\Users\ASUS\Documents\GitHub\GameLanCaro\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.pdb
+C:\Users\ASUS\Documents\GitHub\GameLanCaro\GameCaroLan\GameCaroLan\obj\Debug\GameCaroLan.csprojResolveAssemblyReference.cache
