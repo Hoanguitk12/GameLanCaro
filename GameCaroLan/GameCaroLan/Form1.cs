@@ -35,7 +35,8 @@ namespace GameCaroLan
         void EndGame()
         {
             timer1.Stop();
-            panel1.Enabled = false; 
+            panel1.Enabled = false;
+            undoToolStripMenuItem.Enabled = false;
             MessageBox.Show("kết thúc");
         }
         private void ChessBoard_PlayerMarked(object sender, EventArgs e)
@@ -57,6 +58,7 @@ namespace GameCaroLan
         }
         void NewGame()
         {
+            undoToolStripMenuItem.Enabled = true;
             timer1.Stop();
             progressBar1.Value = 0;
             CheckBoard1.CreatChessboard();
@@ -68,7 +70,7 @@ namespace GameCaroLan
         }
         void Undo()
         {
-
+            CheckBoard1.Undo();
         }
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)

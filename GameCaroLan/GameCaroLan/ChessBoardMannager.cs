@@ -31,6 +31,7 @@ namespace GameCaroLan
         public PictureBox PlayerMark { get => playerMark; set => playerMark = value; }
         public TextBox PlayerName { get => playerName; set => playerName = value; }
         public List<List<Button>> Matrix { get => matrix; set => matrix = value; }
+        internal Stack<PlayInfo> PlayTimeline { get => playTimeline; set => playTimeline = value; }
 
         private List<List<Button>> matrix;
         private event EventHandler playerMarked;
@@ -57,7 +58,7 @@ namespace GameCaroLan
                 endedGame -= value;
             }
         }
-
+        private Stack<PlayInfo> playTimeline;
 
 
         #endregion
@@ -73,9 +74,9 @@ namespace GameCaroLan
                 new Player("Player 1",Image.FromFile(Application.StartupPath + "//Resources//XX.png")),
                 new Player("Player 2",Image.FromFile(Application.StartupPath + "//Resources//chu 0.png"))
             };
-            
-          
 
+
+           
         }
 
         #endregion
@@ -85,6 +86,7 @@ namespace GameCaroLan
         {
             ChessBoard.Enabled = true;
             ChessBoard.Controls.Clear();
+            PlayTimeline = new Stack<PlayInfo>();
             CurrentPlayer = 0;
             CurrentPlayer = CurrentPlayer == 1 ? 0 : 1;
             Matrix = new List<List<Button>>();
@@ -123,9 +125,11 @@ namespace GameCaroLan
             if (btn.BackgroundImage != null)
                 return;
             btn.BackgroundImage = Player[CurrentPlayer].Mark;
+            PlayTimeline.Push(new PlayInfo(GetChessPoint(btn), CurrentPlayer));
             CurrentPlayer = CurrentPlayer == 1 ? 0 : 1;
             PlayerName.Text = Player[CurrentPlayer].Name;
             PlayerMark.Image = Player[CurrentPlayer].Mark;
+          
             if (playerMarked != null)
                 playerMarked(this, new EventArgs());
             if (IsEndGame(btn))
@@ -139,6 +143,24 @@ namespace GameCaroLan
         {
             if (endedGame != null)
                 endedGame(this, new EventArgs());
+        }
+        public bool Undo()
+        {
+            if (PlayTimeline.Count <= 0)
+                return false;
+           PlayInfo oldPoint = PlayTimeline.Pop();
+            Button btn = Matrix[oldPoint.Point.Y][oldPoint.Point.X];
+            btn.BackgroundImage = null;
+            if (PlayTimeline.Count <= 0)
+                CurrentPlayer = 0;
+            else
+            {
+                oldPoint = PlayTimeline.Peek();
+                CurrentPlayer = PlayTimeline.Peek().CurrentPlayer == 1 ? 0 : 1;
+            }
+            PlayerName.Text = Player[CurrentPlayer].Name;
+            PlayerMark.Image = Player[CurrentPlayer].Mark;
+            return true;
         }
         private Point GetChessPoint(Button btn)
         {
