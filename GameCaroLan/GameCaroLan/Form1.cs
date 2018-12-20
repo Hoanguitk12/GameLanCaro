@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,7 +16,7 @@ namespace GameCaroLan
     {
         #region Properties
         ChessBoardMannager CheckBoard1;
-        
+        SocKetManager socket;
 
 #endregion
 
@@ -22,6 +24,8 @@ namespace GameCaroLan
         {
             InitializeComponent();
             CheckBoard1 = new ChessBoardMannager(panel1, textBox1,pictureBox1);
+            socket = new SocKetManager();
+
             CheckBoard1.EndedGame += ChessBoard_EndedGame;
             CheckBoard1.PlayerMarked += ChessBoard_PlayerMarked;
           
@@ -92,6 +96,60 @@ namespace GameCaroLan
         {
             if (MessageBox.Show("Bạn có chắc chắn muốn thoát", "Thông Báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) != System.Windows.Forms.DialogResult.OK)
                 e.Cancel=true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            socket.IP = textBox2.Text;
+            if(!socket.ConnectServer())
+            {
+                socket.CreateServer();
+                Thread listenThread = new Thread(() =>
+                {
+                    while (true)
+                    {
+                        Thread.Sleep(500);
+                        try
+                        {
+                            listen();
+                            break;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                });
+                listenThread.IsBackground = true;
+                listenThread.Start();
+                socket.Send("thông tin từ client");
+            }
+            else
+            {
+                Thread listenThread = new Thread(() =>
+                 {
+                     listen();
+                 });
+                listenThread.IsBackground = true;
+                listenThread.Start();
+                socket.Send("thông tin từ client");
+            }
+        }
+
+        void listen()
+        {
+            string data = (string)socket.Receive();
+            MessageBox.Show(data);
+        }
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            textBox2.Text = socket.GetLocalIPv4(NetworkInterfaceType.Wireless80211);
+            if(string.IsNullOrEmpty(button1.Text))
+            {
+                textBox2.Text = socket.GetLocalIPv4(NetworkInterfaceType.Ethernet);
+            }
+
+          
         }
     }
 }

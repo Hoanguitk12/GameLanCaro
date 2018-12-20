@@ -151,7 +151,7 @@ namespace GameCaroLan
            PlayInfo oldPoint = PlayTimeline.Pop();
             Button btn = Matrix[oldPoint.Point.Y][oldPoint.Point.X];
             btn.BackgroundImage = null;
-            if (PlayTimeline.Count <= 0)
+            if (PlayTimeline.Count <= 0)//kiểm tra stack có bị null hay không
                 CurrentPlayer = 0;
             else
             {
