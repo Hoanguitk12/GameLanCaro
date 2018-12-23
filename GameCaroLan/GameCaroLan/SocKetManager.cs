@@ -49,12 +49,6 @@ namespace GameCaroLan
                  });
             acceptClient.IsBackground = true;
             acceptClient.Start();
-
-        
-                
-            
-
-
         }
         #endregion
         #region Both
@@ -62,7 +56,10 @@ namespace GameCaroLan
         public string IP = "127.0.0.1";
         public int PORT = 9999;
         public const int BUFFER = 1024;//lượng tin gửi
-        
+        public bool isServer = true;
+
+
+
 
         /// <summary>
         /// Nén đối tượng thành mảng byte[]
@@ -70,7 +67,7 @@ namespace GameCaroLan
         /// <param name="o"></param>
         /// <returns></returns>
 
-            public bool Send(object data)
+        public bool Send(object data)
         {
             byte[] sendData = SerializeData(data);
             return SendData(client, sendData);

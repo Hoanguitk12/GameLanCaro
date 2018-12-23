@@ -34,8 +34,8 @@ namespace GameCaroLan
         internal Stack<PlayInfo> PlayTimeline { get => playTimeline; set => playTimeline = value; }
 
         private List<List<Button>> matrix;
-        private event EventHandler playerMarked;
-        public event EventHandler PlayerMarked
+        private event EventHandler<ButtonClickEvent> playerMarked;
+        public event EventHandler<ButtonClickEvent> PlayerMarked
         {
             add
             {
@@ -131,13 +131,31 @@ namespace GameCaroLan
             PlayerMark.Image = Player[CurrentPlayer].Mark;
           
             if (playerMarked != null)
-                playerMarked(this, new EventArgs());
+                playerMarked(this, new ButtonClickEvent(GetChessPoint(btn)));
             if (IsEndGame(btn))
             {
                 EndGame();
             }
            
      
+        }
+        public void OtherPlayerMarked(Point point)
+        {
+            Button btn = Matrix[point.Y][point.X];
+            if (btn.BackgroundImage != null)
+                return;
+            ChessBoard.Enabled = true;
+            btn.BackgroundImage = Player[CurrentPlayer].Mark;
+            PlayTimeline.Push(new PlayInfo(GetChessPoint(btn), CurrentPlayer));
+            CurrentPlayer = CurrentPlayer == 1 ? 0 : 1;
+            PlayerName.Text = Player[CurrentPlayer].Name;
+            PlayerMark.Image = Player[CurrentPlayer].Mark;
+
+            
+            if (IsEndGame(btn))
+            {
+                EndGame();
+            }
         }
         public void EndGame()
         {
@@ -148,18 +166,40 @@ namespace GameCaroLan
         {
             if (PlayTimeline.Count <= 0)
                 return false;
-           PlayInfo oldPoint = PlayTimeline.Pop();
+
+            bool isUndo1 = UndoAStep();
+           
+            bool isUndo2 = UndoAStep();
+           
+
+            PlayInfo oldPoint = PlayTimeline.Peek();
+            CurrentPlayer = oldPoint.CurrentPlayer == 1 ? 0 : 1;
+           
+            return isUndo1 && isUndo2;
+        }
+        private bool UndoAStep()
+        {
+            if (PlayTimeline.Count <= 0)
+                return false;
+
+            PlayInfo oldPoint = PlayTimeline.Pop();
             Button btn = Matrix[oldPoint.Point.Y][oldPoint.Point.X];
+
             btn.BackgroundImage = null;
-            if (PlayTimeline.Count <= 0)//kiểm tra stack có bị null hay không
+
+            if (PlayTimeline.Count <= 0)
+            {
                 CurrentPlayer = 0;
+            }
             else
             {
                 oldPoint = PlayTimeline.Peek();
-                CurrentPlayer = PlayTimeline.Peek().CurrentPlayer == 1 ? 0 : 1;
             }
+
+
             PlayerName.Text = Player[CurrentPlayer].Name;
             PlayerMark.Image = Player[CurrentPlayer].Mark;
+            
             return true;
         }
         private Point GetChessPoint(Button btn)
@@ -299,7 +339,16 @@ namespace GameCaroLan
         }
         #endregion
 
+        public class ButtonClickEvent:EventArgs
+        {
+            private Point clickedPoint;
 
+            public Point ClickedPoint { get => clickedPoint; set => clickedPoint = value; }
+                public ButtonClickEvent(Point point)
+            {
+                this.ClickedPoint = point;
+            }
+        }
 
     }
 }
